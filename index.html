@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jquery.js"></script>
+	<style>
+		body{
+			margin: 0;
+		}
+		.contnet{
+			width: 400px;
+			height: 200px;
+			border: 1px solid #999;
+		}
+	</style>
+</head>
+<body>
+	<div class="contnet"></div>
+</body>
+<script>
+	
+	$.post('index.php',{table:1},function(data){
+		console.log(data);
+		if(data){
+			randPushMes(data);
+		}
+	},'json')
+	function randPushMes(data){
+		var speed=1;
+		var i=1;
+		var html='';
+		setInterval(function(){
+			if(i%2==0){
+				if(data[0].length>0){
+					var index=Math.floor(Math.random()*data[0].length);
+					console.log(index);
+					html = data[0][index]['content'];
+				}
+			}else{
+				if(data[1].length>0){
+					var index=Math.floor(Math.random()*data[1].length);
+					console.log(index);
+					html = data[1][index]['content'];
+				}
+			}
+			$('.contnet').html(html);
+			i++;
+		},speed*1000)
+	}
+
+	//一次性请求所有符合条件的数据，批量设置超时器
+	$.post('index.php',{timearr:1},function(data){
+		var date=Date.parse(new Date());
+		if(data){
+			for(x in data){
+				var s=(Date.parse(new Date(data[x]['start_time']))-date)/1000;
+				console.log(s);
+				TimeOut(s,data[x]['content']);
+			}
+		}
+	},'json')
+	
+	//批量调用的超时器函数
+	function TimeOut(time,content){
+		setTimeout(function(){
+			$('.contnet').html(content);
+		},time*1000)
+	}
+	// function resphp(BaseNum){
+	// 	$.post('./index.php',{oddOrEven:BaseNum},function(data){
+
+	// 		if(data){
+	// 			$('.contnet').html(data.content);
+	// 			console.log(data);
+	// 		}
+	// 	},'json')
+	// }
+
+	// var s=10;	
+ 	//  var BaseNum=1;
+	// setInterval(function(){
+	// 	resphp(BaseNum);
+	// 	BaseNum++;
+	// },10*1000)
+</script>
+</html>

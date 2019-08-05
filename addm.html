@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>添加数据</title>
+	<style>
+		.layui-form{
+			width: 80%;
+			margin: 0 auto;
+			margin-top: 60px;
+		}
+		body{
+			margin: 0;
+		}
+	</style>
+	<link rel="stylesheet" href="layui/css/layui.css">
+	<script src="layui/layui.js"></script>
+
+</head>
+<body>
+	<form class="layui-form">
+		<div class="layui-form-item">
+		   	<label class="layui-form-label">消息</label>
+		   	<div class="layui-input-block">
+	     		<textarea placeholder="请输入消息" class="layui-textarea" name="content" lay-verify="required" lay-verType="tips" lay-reqText="消息内容不能为空"></textarea>
+		   	</div>
+		</div>
+	 	<div class="layui-form-item">
+	     	<div class="layui-input-block">
+		       <button class="layui-btn" lay-submit lay-filter="sub">立即提交</button>
+		       <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+	     	</div>
+	   	</div>
+	</form>
+</body>
+<script>
+
+	layui.use(['laydate', 'jquery','form','layer'], function(){
+	  	var laydate = layui.laydate;
+	  	var layer =  layui.layer;
+	  	var form = layui.form;
+	  	var $ = layui.$;
+
+	  	form.on('submit(sub)', function(data){
+	  		var url="addm.php";
+	  		
+    		$.post(url,{content:data.field.content,start_time:data.field.start_time,end_time:data.field.end_time},function(res){
+    			if(res.status!=undefined && res.status=='success'){
+    				layer.open({
+    					title:'提示',
+    				  	content: '插入记录成功！',
+    				  	icon:1,
+    				  	btn: ['确定', '取消'],
+    				  	yes: function(index, layero){
+    				  	   location.href="listm.html";
+    				  	},
+    				  	btn2: function(index, layero){}
+    				}); 
+    			}
+    		},'json');
+    		return false;
+  		});
+	});
+</script>
+</html>

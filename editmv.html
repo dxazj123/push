@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+ 	<meta charset="UTF-8">
+ 	<title>消息修改</title>
+ 	<link rel="stylesheet" href="layui/css/layui.css">
+	<script src="layui/layui.js"></script>
+	<style>
+		.layui-form{margin:60px;}
+	</style>
+ </head>
+ <body>
+ 	<form class="layui-form" lay-filter="form">
+ 		<input type="hidden" name="id" placeholder="请输入消息" autocomplete="off" class="layui-input" lay-verify="required" value="<?= $info['_id']?>" >
+		<div class="layui-form-item">
+		   	<label class="layui-form-label">消息</label>
+		   	<div class="layui-input-block">
+	     		<textarea placeholder="请输入消息" class="layui-textarea" name="content" lay-verify="required" lay-verType="tips" lay-reqText="消息内容不能为空"></textarea>
+		   	</div>
+		</div>
+	 	<div class="layui-form-item">
+	     	<div class="layui-input-block">
+		       <button class="layui-btn" lay-submit lay-filter="sub">立即提交</button>
+		       <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+	     	</div>
+	   	</div>
+	</form>
+ </body>
+ <script>
+ 	function getQueryVariable(variable)
+ 	{
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+ 	}
+ 	layui.use(['laydate', 'jquery','form','layer'], function(){
+ 	  	var laydate = layui.laydate;
+ 	  	var layer =  layui.layer;
+ 	  	var form = layui.form;
+ 	  	var $ = layui.$;
+ 	  	var id = getQueryVariable('id');
+ 	  	var EditUrl="editm.php";
+ 	  	
+ 	  	$.get(EditUrl,{id:id},function(res){
+ 	  		form.val("form", {
+ 	  			"id": res._id,
+ 	  		  	"content":res.content // "name": "value"
+ 	  		})
+ 	  	},'json')
+ 	  	form.on('submit(sub)', function(data){
+ 	  		var url="eidtmsave.php";
+ 	  		
+     		$.post(url,{id:data.field.id,content:data.field.content},function(res){
+     			if(res.status!=undefined && res.status=='success'){
+     				layer.open({
+     					title:'提示',
+     				  	content: '修改记录成功！',
+     				  	icon:1,
+     				  	btn: ['确定', '取消'],
+     				  	yes: function(index, layero){
+     				  	   location.href="listm.html";
+     				  	},
+     				  	btn2: function(index, layero){}
+     				}); 
+     			}
+                if(res.status!=undefined && res.status=="error"){
+                    layer.msg("未做任何更改");
+                }
+     		},'json');
+     		return false;
+   		});
+ 	  	//执行一个laydate实例
+ 	  	laydate.render({
+ 		    elem: '#start_time',
+ 		    type: 'datetime'
+ 	  	});
+ 	  	laydate.render({
+ 		    elem: '#end_time',
+ 		    type: 'datetime'
+ 	  	});
+ 	});
+ </script>
+ </html>
