@@ -53,12 +53,18 @@
 	  	var layer =  layui.layer;
 	  	var form = layui.form;
 	  	var $ = layui.$;
-
+	  	var date= new Date();
 	  	form.on('submit(sub)', function(data){
 	  		var url="add.php";
-	  		
+	  		var st = new Date(data.field.start_time).valueOf();
+  		 	var et = new Date(data.field.end_time).valueOf();
+  		 	
+ 	  		if(st > et){
+ 	  			layer.msg("结束时间不能大于开始时间");
+ 	  			return false;
+ 	  		}
     		$.post(url,{content:data.field.content,start_time:data.field.start_time,end_time:data.field.end_time},function(res){
-    			if(res.status!=undefined && res.status=='success'){
+    			if(res.msg!=undefined && res.msg=='success'){
     				layer.open({
     					title:'提示',
     				  	content: '插入记录成功！',

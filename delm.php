@@ -10,7 +10,7 @@
 	    $affectLineSum = $result->getDeletedCount();
 	    $data=[];
 	    if($affectLineSum){
-	    	$data['status']='success';
+	    	$data['msg']='success';
 	    	echo json_encode($data);
 	    }
 	    exit;
@@ -25,7 +25,7 @@
 		$result = $manager->executeBulkWrite('message.message_one', $bulk, $writeConcern);
 	    $affectLineSum = $result->getDeletedCount();
 		if($affectLineSum){
-			$data['status']='success';
+			$data['msg']='success';
 			echo json_encode($data);
 		}
 		exit;

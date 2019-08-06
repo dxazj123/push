@@ -45,7 +45,7 @@
 	  		var url="addm.php";
 	  		
     		$.post(url,{content:data.field.content,start_time:data.field.start_time,end_time:data.field.end_time},function(res){
-    			if(res.status!=undefined && res.status=='success'){
+    			if(res.msg!=undefined && res.msg=='success'){
     				layer.open({
     					title:'提示',
     				  	content: '插入记录成功！',

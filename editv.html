@@ -88,7 +88,7 @@
  	  		}
      		$.post(url,{id:data.field.id,content:data.field.content,start_time:data.field.start_time,end_time:data.field.end_time},function(res){
      			console.log(res);
-     			if(res.status!=undefined && res.status=='success'){
+     			if(res.msg!=undefined && res.msg=='success'){
      				layer.open({
      					title:'提示',
      				  	content: '修改记录成功！',
@@ -100,7 +100,7 @@
      				  	btn2: function(index, layero){}
      				}); 
      			}
-     			if(res.status!=undefined && res.status=="error"){
+     			if(res.msg!=undefined && res.msg=="error"){
      				layer.msg("未做任何更改");
      			}
      		},'json');

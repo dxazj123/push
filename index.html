@@ -51,6 +51,7 @@
 
 	//一次性请求所有符合条件的数据，批量设置超时器
 	$.post('index.php',{timearr:1},function(data){
+		console.log(data);
 		var date=Date.parse(new Date());
 		if(data){
 			for(x in data){

@@ -14,10 +14,10 @@
 	$affectLineSum=$result->getModifiedCount();
 	$data=[];
     if($affectLineSum){
-    	$data['status']='success';
+    	$data['msg']='success';
     	echo json_encode($data);
     }else{
-    	$data['status']='error';
+    	$data['msg']='error';
     	echo json_encode($data);
     }
     exit;

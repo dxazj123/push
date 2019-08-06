@@ -14,10 +14,10 @@
 	$res=[];
 
 	if($affectLineSum>0){
-	    $res['status']='success';
+	    $res['msg']='success';
 	    echo json_encode($res);
 	} else {
-	   	$res['status']='error';
+	   	$res['msg']='error';
 	   	echo json_encode($res);
 	}
  ?>
