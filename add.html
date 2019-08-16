@@ -14,15 +14,13 @@
 		}
 	</style>
 	<link rel="stylesheet" href="layui/css/layui.css">
-	<script src="layui/layui.js"></script>
-
 </head>
 <body>
-	<form class="layui-form">
+	<form class="layui-form" lay-verify="addform">
 		<div class="layui-form-item">
 		   	<label class="layui-form-label">消息</label>
 		   	<div class="layui-input-block">
-		   		<textarea placeholder="请输入消息" class="layui-textarea" name="content" lay-verify="required" lay-verType="tips" lay-reqText="消息内容不能为空"></textarea>
+		   		<textarea placeholder="请输入消息" class="layui-textarea" name="content" lay-verify="required|content" lay-verType="tips" lay-reqText="消息内容不能为空"></textarea>
 	     		<!-- <input type="text" name="content" placeholder="请输入消息" autocomplete="off" class="layui-input" lay-verify="required"> -->
 		   	</div>
 		</div>
@@ -46,6 +44,7 @@
 	   	</div>
 	</form>
 </body>
+<script src="layui/layui.js"></script>
 <script>
 
 	layui.use(['laydate', 'jquery','form','layer'], function(){
@@ -54,11 +53,21 @@
 	  	var form = layui.form;
 	  	var $ = layui.$;
 	  	var date= new Date();
+	  	form.verify({
+	  		content: function(value, item){ //value：表单的值、item：表单的DOM对象
+	  		    // if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+	  		    //   return '消息不能有特殊字符';
+	  		    // }
+	  		    if(/^(null|None|Null|none|\"\"|“”|空)+$/.test(value)){
+	  		      	return '消息不能不能为null None 空 “”';
+	  		    }
+  		  	}
+	  	});
 	  	form.on('submit(sub)', function(data){
 	  		var url="add.php";
 	  		var st = new Date(data.field.start_time).valueOf();
   		 	var et = new Date(data.field.end_time).valueOf();
-  		 	
+  			
  	  		if(st > et){
  	  			layer.msg("结束时间不能大于开始时间");
  	  			return false;
@@ -69,11 +78,13 @@
     					title:'提示',
     				  	content: '插入记录成功！',
     				  	icon:1,
-    				  	btn: ['确定', '取消'],
+    				  	btn: ['确定', '继续新增'],
     				  	yes: function(index, layero){
     				  	   location.href="list.html";
     				  	},
-    				  	btn2: function(index, layero){}
+    				  	btn2: function(index, layero){
+    				  		$('button[type=reset]').trigger('click');
+    				  	}
     				}); 
     			}
     		},'json');
@@ -86,7 +97,8 @@
 		    calendar: true,
 		    theme: 'grid',
 		    btns: ['clear', 'confirm'],
-		    change:function(value, date, endDate){
+		    min:0,
+		    done:function(value, date, endDate){
 		    	b.config.min = {
     				year: date.year,
     				month: date.month - 1,
@@ -97,13 +109,14 @@
     			}
 		    }
 	  	});
-	  	b = laydate.render({
+	  	var b = laydate.render({
 		    elem: '#end_time',
 		    type: 'datetime',
 		    calendar: true,
 		    theme: 'grid',
 		    btns: ['clear', 'confirm'],
-		    change:function(value, date, endDate){
+		    min:1,
+		    done:function(value, date, endDate){
 		    	a.config.max = {
     				year: date.year,
     				month: date.month - 1,

@@ -1,4 +1,6 @@
-<?php 
+<?php
+	function_exists("date_default_timezone_set");
+	date_default_timezone_set('PRC'); 
 	$manager = new MongoDB\Driver\Manager("mongodb://localhost:27017");
 	//连接mongodb
 

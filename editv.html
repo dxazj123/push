@@ -4,7 +4,6 @@
  	<meta charset="UTF-8">
  	<title>消息修改</title>
  	<link rel="stylesheet" href="layui/css/layui.css">
-	<script src="layui/layui.js"></script>
 	<style>
 		.layui-form{
 			width: 80%;
@@ -45,6 +44,7 @@
 	   	</div>
 	</form>
  </body>
+ <script src="layui/layui.js"></script>
  <script>
  	function getQueryVariable(variable)
  	{
@@ -113,6 +113,7 @@
 		    calendar: true,
 		    theme: 'grid',
 		    btns: ['clear', 'confirm'],
+		    min:0,
 		    ready: function(date){
     			b.config.min = {
     				year: date.year,
@@ -134,13 +135,14 @@
     			}
 		    }
 	  	});
-	  	b = laydate.render({
+	  	var b = laydate.render({
 		    elem: '#end_time',
 		    type: 'datetime',
 		    calendar: true,
 		    theme: 'grid',
 		    btns: ['clear', 'confirm'],
-		    ready:function(date){
+		    min:1,
+		    done:function(date){
 		    	a.config.max = {
     				year: date.year,
     				month: date.month - 1,
@@ -150,7 +152,7 @@
     				seconds: date.seconds
     			}
 		    },
-		    change:function(value, date, endDate){
+		    done:function(value, date, endDate){
 		    	a.config.max = {
     				year: date.year,
     				month: date.month - 1,
