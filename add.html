@@ -58,7 +58,7 @@
 	  		    // if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
 	  		    //   return '消息不能有特殊字符';
 	  		    // }
-	  		    if(/^(null|none|\"\s*\"|“\s*”|空)+$/.test(value.toLowerCase())){
+	  		    if(/^(null|none|空|[\'\"’“”‘]+|[\'\"’“”‘]+|[\'\"’“”‘]+\s*[\'\"’“”‘]+)+$/.test(value.toLowerCase())){
 	  		      	return '消息不能为'+value;
 	  		    }
   		  	}
