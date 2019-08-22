@@ -73,9 +73,16 @@
  	  		  	"end_time":res.end_time
  	  		})
  	  	},'json')
-
- 	  	
-
+ 	  	form.verify({
+	  		content: function(value, item){ //value：表单的值、item：表单的DOM对象
+	  		    // if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+	  		    //   return '消息不能有特殊字符';
+	  		    // }
+	  		    if(/^(null|none|空|[\'\"’“”‘]+|[\'\"’“”‘]+|[\'\"’“”‘]+\s*[\'\"’“”‘]+)+$/.test(value.toLowerCase())){
+	  		      	return '消息不能为'+value;
+	  		    }
+  		  	}
+	  	});
  	  	form.on('submit(sub)', function(data){
  	  		var url="eidtsave.php";
  	  		
