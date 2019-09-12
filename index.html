@@ -27,25 +27,30 @@
 		}
 	},'json')
 	function randPushMes(data){
-		var speed=1;
+		var speed=10;
 		var i=1;
 		var html='';
 		setInterval(function(){
+			console.log(i);
 			if(i%2==0){
 				if(data[0].length>0){
 					var index=Math.floor(Math.random()*data[0].length);
-					console.log(index);
+					// console.log(index);
 					html = data[0][index]['content'];
 				}
 			}else{
 				if(data[1].length>0){
 					var index=Math.floor(Math.random()*data[1].length);
-					console.log(index);
+					// console.log(index);
 					html = data[1][index]['content'];
 				}
 			}
 			$('.contnet').html(html);
 			i++;
+			var clear=setInterval(function(){
+				$('.contnet').html('');
+				clearInterval(clear);
+			},3000);
 		},speed*1000)
 	}
 
